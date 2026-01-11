@@ -4,12 +4,11 @@
 import React from 'react';
 
 import React, {memo, useCallback} from 'react';
+import {useIntl} from 'react-intl';
 
 import EllipsisHorizontalIcon from 'components/widgets/icons/ellipsis_h_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-
-import {localizeMessage} from 'utils/utils';
 
 import type {TeamWithMembership} from './types';
 
@@ -28,6 +27,8 @@ const TeamListDropdown = ({
     doMakeUserTeamMember,
     isDisabled,
 }: Props) => {
+    const intl = useIntl();
+
     const isAdmin = team.scheme_admin;
     const isMember = team.scheme_user && !team.scheme_admin;
     const isGuest = team.scheme_guest;
@@ -54,24 +55,24 @@ const TeamListDropdown = ({
                 <Menu
                     openLeft={true}
                     openUp={false}
-                    ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
+                    ariaLabel={intl.formatMessage({id: 'team_members_dropdown.menuAriaLabel', defaultMessage: 'Change the role of a team member'})}
                 >
                     <Menu.ItemAction
                         id='makeTeamAdmin'
                         show={showMakeTeamAdmin}
                         onClick={makeTeamAdminOnClick}
-                        text={localizeMessage('team_members_dropdown.makeAdmin', 'Make Team Admin')}
+                        text={intl.formatMessage({id: 'team_members_dropdown.makeAdmin', defaultMessage: 'Make Team Admin'})}
                     />
                     <Menu.ItemAction
                         show={showMakeTeamMember}
                         onClick={makeTeamMemberOnClick}
-                        text={localizeMessage('team_members_dropdown.makeMember', 'Make Team Member')}
+                        text={intl.formatMessage({id: 'team_members_dropdown.makeMember', defaultMessage: 'Make Team Member'})}
                     />
                     <Menu.ItemAction
                         id='removeFromTeam'
                         show={true}
                         onClick={removeUserTeamOnClick}
-                        text={localizeMessage('team_members_dropdown.leave_team', 'Remove from Team')}
+                        text={intl.formatMessage({id: 'team_members_dropdown.leave_team', defaultMessage: 'Remove from Team'})}
                         buttonClass='SystemUserDetail__action-remove-team'
                     />
                 </Menu>
