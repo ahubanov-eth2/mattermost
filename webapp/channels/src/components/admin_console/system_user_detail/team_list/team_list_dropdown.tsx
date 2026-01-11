@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { memo } from 'react';
+import React, { memo, useCallback} from 'react';
 
 import EllipsisHorizontalIcon from 'components/widgets/icons/ellipsis_h_icon';
 import Menu from 'components/widgets/menu/menu';
@@ -32,6 +32,10 @@ const TeamListDropdown = ({
     const showMakeTeamAdmin = !isAdmin && !isGuest;
     const showMakeTeamMember = !isMember && !isGuest;
 
+    const makeTeamAdminOnClick = useCallback(() => doMakeUserTeamAdmin(team.id), [team.id, doMakeUserTeamAdmin]);
+    const makeTeamMemberOnClick = useCallback(() => doMakeUserTeamMember(team.id), [team.id, doMakeUserTeamMember]);
+    const removeUserTeamOnClick = useCallback(() => doRemoveUserFromTeam(team.id), [team.id, doRemoveUserFromTeam]);
+
     return (
         <MenuWrapper
             isDisabled={this.props.isDisabled}
@@ -53,18 +57,18 @@ const TeamListDropdown = ({
                     <Menu.ItemAction
                         id='makeTeamAdmin'
                         show={showMakeTeamAdmin}
-                        onClick={() => this.props.doMakeUserTeamAdmin(team.id)}
+                        onClick={makeTeamAdminOnClick}
                         text={localizeMessage('team_members_dropdown.makeAdmin', 'Make Team Admin')}
                     />
                     <Menu.ItemAction
                         show={showMakeTeamMember}
-                        onClick={() => this.props.doMakeUserTeamMember(team.id)}
+                        onClick={makeTeamMemberOnClick}
                         text={localizeMessage('team_members_dropdown.makeMember', 'Make Team Member')}
                     />
                     <Menu.ItemAction
                         id='removeFromTeam'
                         show={true}
-                        onClick={() => this.props.doRemoveUserFromTeam(team.id)}
+                        onClick={removeUserTeamOnClick}
                         text={localizeMessage('team_members_dropdown.leave_team', 'Remove from Team')}
                         buttonClass='SystemUserDetail__action-remove-team'
                     />
